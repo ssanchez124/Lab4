@@ -7,6 +7,23 @@ export default function HomeScreen() {
   function handleSearch() {
     const q = pokemonName.trim();
     console.log("Search pressed:", q);
+    if (!q) {
+      console.error("Please enter a Pokemon name.");
+      return;
+    }
+    fetch(`https://pokeapi.co/api/v2/pokemon/${q.toLowerCase()}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Pokemon not found: ${q}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Pokemon data:", data);
+      })
+      .catch((error) => {
+        console.error("Error fetching Pokemon:", error.message);
+      });
   }
 
   return (
