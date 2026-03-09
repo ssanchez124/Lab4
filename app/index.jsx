@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Image, StyleSheet, Text, TextInput, View } from "react-native";
 
 /*
 add state variables for:
@@ -82,6 +82,17 @@ export default function HomeScreen() {
           </Text>
         )}
       </View>
+      {pokemon && (
+        <View style={styles.pokemonContainer}>
+          <Text style={styles.pokemonName}>{pokemon.name}</Text>
+          <Image source={{ uri: pokemon.sprites.front_default }} style={styles.pokemonImage} />
+          <View style={styles.pokemonDetails}> 
+            <Text>Types: {pokemon.types.map(t => t.type.name).join(', ')}</Text>
+            <Text>Abilities: {pokemon.abilities.map(a => a.ability.name).join(', ')}</Text>
+            <Text>Moves: {pokemon.moves.slice(0, 5).map(m => m.move.name).join(', ')}</Text>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -105,5 +116,25 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 8,
     padding: 10,
+  },
+  pokemonContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  pokemonName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textTransform: 'capitalize',
+  },
+  pokemonImage: {
+    width: 150,
+    height: 150,
+    marginVertical: 10,
+  },
+  pokemonDetails: {
+    alignItems: 'center',
+    backgroundColor: '#909090',
+    padding: 10,
+    borderRadius: 8,
   },
 });
