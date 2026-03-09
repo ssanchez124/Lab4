@@ -1,39 +1,14 @@
 import { useState } from "react";
 import { Button, Image, StyleSheet, Text, TextInput, View } from "react-native";
-import { fetchPokemon } from "../src/services/pokemonApi";
+import { usePokemonController } from "../src/controllers/usePokemonController";
 
 
 export default function HomeScreen() {
   const [pokemonName, setPokemonName] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [pokemon, setPokemon] = useState(null);
+  const { loading, error, pokemon, searchPokemon } = usePokemonController();
 
-  async function handleSearch() {
-    const q = pokemonName.trim();
-    console.log("Search pressed:", q);
-    if (!q) {
-      const msg = "Please enter a Pokemon name.";
-      console.error(msg);
-      setError(msg);
-      return;
-    }
-
-    setLoading(true);
-    setPokemon(null);
-
-    try {
-      const data = await fetchPokemon(q);
-      setPokemon(data);
-      setError("");
-      console.log("Pokemon data:", data);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      setError(msg);
-      console.error("Error fetching Pokemon:", msg);
-    } finally {
-      setLoading(false);
-    }
+  function handleSearch() {
+    searchPokemon(pokemonName);
   }
 
   return (

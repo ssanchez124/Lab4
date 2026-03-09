@@ -25,3 +25,7 @@ The service function's input is from the User then it requests the data related 
 A builder pattern gives a function that can be used anywhere as a format for the data related to a pokemon
 
 The model can be used in multiple files and has less code mixed up in it in case an error occurs and needs bug fixing
+
+The controller manages the states as well as the calling of fetchpokemon
+
+Makes the main page code a lot more consise and easier to understand
