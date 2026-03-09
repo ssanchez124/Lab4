@@ -41,3 +41,7 @@ The state is determined by the code when requested instead of being stored
 Allows the data to be reused in other files
 
 A state is defined in the code and changed accordingly, while a persisted state is determined when its called and never existed before being called
+
+Because it affects the container inside of the view layer
+
+when the pokemon state changes from null to a pokemon, it triggers the animation

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Image, StyleSheet, Text, TextInput, View, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { Button, Image, StyleSheet, Text, TextInput, View, TouchableOpacity, ScrollView, Animated } from 'react-native';
 import { Pokemon } from '../models/Pokemon';
 
 interface PokemonViewProps {
@@ -16,9 +16,31 @@ interface PokemonViewProps {
 const PokemonView: React.FC<PokemonViewProps> = ({ loading, error, pokemon, searchPokemon, favorites, isFavorite, toggleFavorite, loadFavorite }) => {
   const [pokemonName, setPokemonName] = useState('');
 
+  // animation value drives both opacity and rotation
+  const anim = useRef(new Animated.Value(0)).current;
+
   const handleSearch = () => {
     searchPokemon(pokemonName);
   };
+
+  // trigger animation whenever we go from no pokemon to a real one
+  useEffect(() => {
+    if (pokemon) {
+      anim.setValue(0);
+      Animated.timing(anim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [pokemon, anim]);
+
+  // interpolated values
+  const opacity = anim;
+  const rotate = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
 
   return (
     <View style={styles.container}>
@@ -43,7 +65,12 @@ const PokemonView: React.FC<PokemonViewProps> = ({ loading, error, pokemon, sear
         )}
       </View>
       {pokemon && (
-        <View style={styles.pokemonContainer}>
+        <Animated.View
+          style={[
+            styles.pokemonContainer,
+            { opacity, transform: [{ rotate }] },
+          ]}
+        >
           <Text style={styles.pokemonName}>{pokemon.name}</Text>
           <Image source={{ uri: pokemon.image }} style={styles.pokemonImage} />
           <View style={styles.pokemonDetails}>
@@ -52,7 +79,7 @@ const PokemonView: React.FC<PokemonViewProps> = ({ loading, error, pokemon, sear
             <Text>Moves: {pokemon.moves.slice(0, 5).join(', ')}</Text>
           </View>
           <Button title={isFavorite ? "Unfavorite" : "Favorite"} onPress={toggleFavorite} />
-        </View>
+        </Animated.View>
       )}
       {favorites.length > 0 && (
         <View style={styles.favoritesContainer}>
