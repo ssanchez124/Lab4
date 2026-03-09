@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchPokemon } from '../services/pokemonApi';
 import { Pokemon } from '../models/Pokemon';
+import { loadFavorites, saveFavorites } from '../services/favoritesStorage';
 
 export function usePokemonController() {
   const [loading, setLoading] = useState(false);
@@ -9,6 +10,16 @@ export function usePokemonController() {
   const [favorites, setFavorites] = useState<string[]>([]);
 
   const isFavorite = pokemon ? favorites.includes(pokemon.name) : false;
+
+  // Load favorites on startup
+  useEffect(() => {
+    loadFavorites().then(setFavorites);
+  }, []);
+
+  // Save favorites whenever they change
+  useEffect(() => {
+    saveFavorites(favorites);
+  }, [favorites]);
 
   async function searchPokemon(name: string) {
     const q = name.trim();
