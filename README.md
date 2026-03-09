@@ -18,5 +18,6 @@ I would have to define the code used for fetching and parsing the data into it's
 
 To test the API parsing I would have to search something using the app and comparing the data it outputs to the data its requesting from
 
+Less lines of code and faster load times as there isnt a need to import react multiple times
 
-
+The service function's input is from the User then it requests the data related to that input, parses and refines the data as an output, an error will be put in the output instead if the input is an invalid name
