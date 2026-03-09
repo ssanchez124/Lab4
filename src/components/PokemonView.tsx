@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Image, StyleSheet, Text, TextInput, View, TouchableOpacity, ScrollView } from 'react-native';
 import { Pokemon } from '../models/Pokemon';
 
 interface PokemonViewProps {
@@ -7,9 +7,13 @@ interface PokemonViewProps {
   error: string;
   pokemon: Pokemon | null;
   searchPokemon: (name: string) => void;
+  favorites: string[];
+  isFavorite: boolean;
+  toggleFavorite: () => void;
+  loadFavorite: (name: string) => void;
 }
 
-const PokemonView: React.FC<PokemonViewProps> = ({ loading, error, pokemon, searchPokemon }) => {
+const PokemonView: React.FC<PokemonViewProps> = ({ loading, error, pokemon, searchPokemon, favorites, isFavorite, toggleFavorite, loadFavorite }) => {
   const [pokemonName, setPokemonName] = useState('');
 
   const handleSearch = () => {
@@ -47,6 +51,19 @@ const PokemonView: React.FC<PokemonViewProps> = ({ loading, error, pokemon, sear
             <Text>Abilities: {pokemon.abilities.join(', ')}</Text>
             <Text>Moves: {pokemon.moves.slice(0, 5).join(', ')}</Text>
           </View>
+          <Button title={isFavorite ? "Unfavorite" : "Favorite"} onPress={toggleFavorite} />
+        </View>
+      )}
+      {favorites.length > 0 && (
+        <View style={styles.favoritesContainer}>
+          <Text style={styles.favoritesTitle}>Favorites:</Text>
+          <ScrollView style={styles.favoritesList}>
+            {favorites.map(fav => (
+              <TouchableOpacity key={fav} style={styles.favoriteItem} onPress={() => loadFavorite(fav)}>
+                <Text style={styles.favoriteText}>{fav}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
       )}
     </View>
@@ -92,6 +109,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#909090',
     padding: 10,
     borderRadius: 8,
+  },
+  favoritesContainer: {
+    marginTop: 20,
+    width: '100%',
+  },
+  favoritesTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  favoritesList: {
+    maxHeight: 200,
+  },
+  favoriteItem: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    marginVertical: 2,
+    borderRadius: 5,
+  },
+  favoriteText: {
+    fontSize: 16,
+    textTransform: 'capitalize',
   },
 });
 

@@ -34,3 +34,6 @@ the props needed were: loading, error, pokemon, and searchPokemon
 
 There could be state change errors
 
+It allows the functions to be reused for the future if needed and used across muliple files
+
+The state is determined by the code when requested instead of being stored
