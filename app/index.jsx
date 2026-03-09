@@ -61,11 +61,11 @@ export default function HomeScreen() {
       {pokemon && (
         <View style={styles.pokemonContainer}>
           <Text style={styles.pokemonName}>{pokemon.name}</Text>
-          <Image source={{ uri: pokemon.sprites.front_default }} style={styles.pokemonImage} />
+          <Image source={{ uri: pokemon.image }} style={styles.pokemonImage} />
           <View style={styles.pokemonDetails}> 
-            <Text>Types: {pokemon.types.map(t => t.type.name).join(', ')}</Text>
-            <Text>Abilities: {pokemon.abilities.map(a => a.ability.name).join(', ')}</Text>
-            <Text>Moves: {pokemon.moves.slice(0, 5).map(m => m.move.name).join(', ')}</Text>
+            <Text>Types: {pokemon.types.join(', ')}</Text>
+            <Text>Abilities: {pokemon.abilities.join(', ')}</Text>
+            <Text>Moves: {pokemon.moves.slice(0, 5).join(', ')}</Text>
           </View>
         </View>
       )}

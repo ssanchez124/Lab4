@@ -21,3 +21,7 @@ To test the API parsing I would have to search something using the app and compa
 Less lines of code and faster load times as there isnt a need to import react multiple times
 
 The service function's input is from the User then it requests the data related to that input, parses and refines the data as an output, an error will be put in the output instead if the input is an invalid name
+
+A builder pattern gives a function that can be used anywhere as a format for the data related to a pokemon
+
+The model can be used in multiple files and has less code mixed up in it in case an error occurs and needs bug fixing

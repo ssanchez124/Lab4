@@ -1,23 +1,15 @@
-export interface Pokemon {
-  name: string;
-  sprites: {
-    front_default: string | null;
-  };
-  types: Array<{ type: { name: string } }>;
-  abilities: Array<{ ability: { name: string } }>;
-  moves: Array<{ move: { name: string } }>;
-}
+import { Pokemon } from '../models/Pokemon';
+import { PokemonBuilder } from '../models/PokemonBuilder';
 
 function parsePokemon(data: any): Pokemon {
-  return {
-    name: data.name,
-    sprites: {
-      front_default: data.sprites?.front_default ?? null,
-    },
-    types: data.types || [],
-    abilities: data.abilities || [],
-    moves: data.moves || [],
-  };
+  const builder = new PokemonBuilder()
+    .setName(data.name)
+    .setImage(data.sprites?.front_default ?? '')
+    .setTypes(data.types?.map((t: any) => t.type.name) || [])
+    .setAbilities(data.abilities?.map((a: any) => a.ability.name) || [])
+    .setMoves(data.moves?.map((m: any) => m.move.name) || []);
+
+  return builder.build();
 }
 
 export async function fetchPokemon(name: string): Promise<Pokemon> {
