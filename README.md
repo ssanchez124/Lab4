@@ -29,3 +29,8 @@ The model can be used in multiple files and has less code mixed up in it in case
 The controller manages the states as well as the calling of fetchpokemon
 
 Makes the main page code a lot more consise and easier to understand
+
+the props needed were: loading, error, pokemon, and searchPokemon
+
+There could be state change errors
+
